@@ -1,9 +1,15 @@
 import Papa from 'papaparse';
 
-// Helper to fetch and parse CSV
+// Helper to fetch and parse CSV with cache-busting
 const fetchCSV = async (url) => {
   return new Promise((resolve, reject) => {
-    Papa.parse(url, {
+    // Add timestamp to prevent caching
+    const cacheBuster = `cacheBust=${new Date().getTime()}`;
+    const urlWithCacheBuster = url.includes('?') 
+      ? `${url}&${cacheBuster}` 
+      : `${url}?${cacheBuster}`;
+    
+    Papa.parse(urlWithCacheBuster, {
       download: true,
       header: true,
       complete: (results) => {
