@@ -156,63 +156,202 @@ export default function ShopDetails() {
         </div>
       </div>
 
-      <div className="container main-section">
-        <div className="toolbar">
-          <h2>Our Products</h2>
-          <div className="filters">
-            <div className="sort-dropdown">
-              <select 
-                className="sort-select"
-                value={sortType}
-                onChange={(e) => handleSort(e.target.value)}
-              >
-                <option value="price-low-high">Price: Low to High</option>
-                <option value="price-high-low">Price: High to Low</option>
-                <option value="alphabetical-a-z">Alphabetical: A-Z</option>
-                <option value="alphabetical-z-a">Alphabetical: Z-A</option>
-              </select>
-              <ChevronDown size={16} className="sort-icon" />
-            </div>
+      <div className="page-wrapper">
+        {/* Decorative Background Elements */}
+        <div className="decorative-bg">
+          <div className="decoration-left">
+            <div className="floating-shape shape-1"></div>
+            <div className="floating-shape shape-2"></div>
+            <div className="floating-shape shape-3"></div>
+          </div>
+          <div className="decoration-right">
+            <div className="floating-shape shape-4"></div>
+            <div className="floating-shape shape-5"></div>
+            <div className="floating-shape shape-6"></div>
           </div>
         </div>
 
-        <div className="product-grid">
-          {sortedProducts.map(product => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              onAddToCart={handleAddToCart}
-            />
-          ))}
+        <div className="container main-section">
+          <div className="toolbar">
+            <h2>Our Products</h2>
+            <div className="filters">
+              <div className="sort-dropdown">
+                <select 
+                  className="sort-select"
+                  value={sortType}
+                  onChange={(e) => handleSort(e.target.value)}
+                >
+                  <option value="price-low-high">Price: Low to High</option>
+                  <option value="price-high-low">Price: High to Low</option>
+                  <option value="alphabetical-a-z">Alphabetical: A-Z</option>
+                  <option value="alphabetical-z-a">Alphabetical: Z-A</option>
+                </select>
+                <ChevronDown size={16} className="sort-icon" />
+              </div>
+            </div>
+          </div>
+
+          <div className="product-grid">
+            {sortedProducts.map(product => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                shopPhone={shop.phone_number}
+                onAddToCart={handleAddToCart}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
       <style>{`
+        .page-wrapper {
+          position: relative;
+          min-height: 100vh;
+          overflow: hidden;
+        }
+
+        .decorative-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .decoration-left,
+        .decoration-right {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 20%;
+          max-width: 300px;
+        }
+
+        .decoration-left {
+          left: 0;
+          background: linear-gradient(to right, rgba(102, 126, 234, 0.03) 0%, transparent 100%);
+        }
+
+        .decoration-right {
+          right: 0;
+          background: linear-gradient(to left, rgba(118, 75, 162, 0.03) 0%, transparent 100%);
+        }
+
+        .floating-shape {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(40px);
+          opacity: 0.4;
+          animation: float 20s ease-in-out infinite;
+        }
+
+        /* Left side shapes */
+        .shape-1 {
+          width: 200px;
+          height: 200px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          top: 10%;
+          left: 5%;
+          animation-delay: 0s;
+        }
+
+        .shape-2 {
+          width: 150px;
+          height: 150px;
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+          top: 50%;
+          left: 10%;
+          animation-delay: 5s;
+        }
+
+        .shape-3 {
+          width: 180px;
+          height: 180px;
+          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+          top: 80%;
+          left: 3%;
+          animation-delay: 10s;
+        }
+
+        /* Right side shapes */
+        .shape-4 {
+          width: 220px;
+          height: 220px;
+          background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+          top: 15%;
+          right: 5%;
+          animation-delay: 2s;
+        }
+
+        .shape-5 {
+          width: 160px;
+          height: 160px;
+          background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+          top: 55%;
+          right: 8%;
+          animation-delay: 7s;
+        }
+
+        .shape-6 {
+          width: 190px;
+          height: 190px;
+          background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+          top: 85%;
+          right: 4%;
+          animation-delay: 12s;
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          25% {
+            transform: translateY(-30px) rotate(5deg);
+          }
+          50% {
+            transform: translateY(-60px) rotate(-5deg);
+          }
+          75% {
+            transform: translateY(-30px) rotate(3deg);
+          }
+        }
+
+        .main-section {
+          position: relative;
+          z-index: 1;
+        }
+
         .shop-header {
-          background: var(--surface);
-          padding: 1rem 0;
-          border-bottom: 1px solid var(--border);
-          margin-bottom: 2rem;
+          background: var(--gradient-hero);
+          padding: 2rem 0;
+          border-bottom: none;
+          margin-bottom: 0;
           position: sticky;
           top: 0;
           z-index: 100;
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+          box-shadow: var(--shadow-xl);
         }
 
         .shop-info {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 1.5rem;
         }
 
         .shop-logo {
-          width: 60px;
-          height: 60px;
-          border-radius: var(--radius-md);
+          width: 80px;
+          height: 80px;
+          border-radius: var(--radius-xl);
           overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-shadow: var(--shadow-2xl);
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          backdrop-filter: blur(10px);
         }
 
         .shop-logo img {
@@ -224,87 +363,65 @@ export default function ShopDetails() {
         .shop-details {
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+          gap: 0.5rem;
+          flex: 1;
         }
 
         .shop-details h1 {
-          font-size: 1.25rem;
+          font-size: 1.75rem;
           margin: 0;
-          color: var(--text-primary);
-          font-weight: 700;
+          color: white;
+          font-weight: 800;
+          letter-spacing: -0.01em;
         }
 
         .shop-contact-info {
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
-          font-size: 0.9rem;
-          color: var(--text-secondary);
-          margin-bottom: 0.5rem;
+          gap: 0.375rem;
+          font-size: 0.95rem;
+          color: rgba(255, 255, 255, 0.9);
         }
 
         .contact-item {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.625rem;
         }
 
         .contact-item .label {
-          font-weight: 500;
-          color: var(--text-primary);
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.8);
         }
 
         .contact-item a {
-          color: var(--primary);
+          color: white;
           text-decoration: none;
+          transition: opacity 0.2s;
         }
 
         .contact-item a:hover {
-          text-decoration: underline;
+          opacity: 0.8;
         }
 
-        .shop-meta {
-          display: flex;
-          gap: 1rem;
-          margin-top: 0.5rem;
-        }
-
-        .meta-btn {
-          background: none;
-          border: none;
-          padding: 0;
-          font-size: 0.95rem;
-          font-weight: 500;
-          color: var(--text-secondary);
-          cursor: pointer;
-          position: relative;
-        }
-
-        .meta-btn:hover, .meta-btn.active {
-          color: var(--primary);
-        }
-
-        .meta-btn.active::after {
-          content: '';
-          position: absolute;
-          bottom: -4px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background-color: var(--primary);
-          border-radius: 2px;
+        .main-section {
+          padding: 3rem 0;
         }
 
         .toolbar {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 2rem;
+          margin-bottom: 3rem;
+          flex-wrap: wrap;
+          gap: 1.5rem;
         }
 
         .toolbar h2 {
-          font-size: 1.25rem;
+          font-size: 2rem;
+          font-weight: 700;
           color: var(--text-primary);
+          margin: 0;
         }
 
         .filters {
@@ -319,31 +436,34 @@ export default function ShopDetails() {
 
         .sort-select {
           appearance: none;
-          padding: 0.5rem 2.5rem 0.5rem 1rem;
+          padding: 0.75rem 3rem 0.75rem 1.25rem;
           background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-md);
+          border: 2px solid var(--border);
+          border-radius: var(--radius-lg);
           color: var(--text-primary);
-          font-size: 0.9rem;
+          font-size: 0.95rem;
+          font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s;
-          min-width: 180px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          min-width: 200px;
+          box-shadow: var(--shadow-sm);
         }
 
         .sort-select:hover {
-          background: var(--background);
+          background: var(--surface);
           border-color: var(--primary);
+          box-shadow: var(--shadow-md);
         }
 
         .sort-select:focus {
           outline: none;
           border-color: var(--primary);
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
         }
 
         .sort-icon {
           position: absolute;
-          right: 0.75rem;
+          right: 1rem;
           top: 50%;
           transform: translateY(-50%);
           pointer-events: none;
@@ -353,19 +473,85 @@ export default function ShopDetails() {
         .product-grid {
           display: grid;
           grid-template-columns: repeat(1, 1fr);
-          gap: 2rem;
+          gap: 2.5rem;
+          animation: fadeIn 0.6s ease-out;
         }
 
         @media (min-width: 640px) {
-          .product-grid { grid-template-columns: repeat(2, 1fr); }
+          .product-grid { 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+          }
         }
 
         @media (min-width: 768px) {
-          .product-grid { grid-template-columns: repeat(3, 1fr); }
+          .product-grid { 
+            grid-template-columns: repeat(3, 1fr); 
+          }
         }
 
         @media (min-width: 1024px) {
-          .product-grid { grid-template-columns: repeat(4, 1fr); }
+          .product-grid { 
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .product-grid { 
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+          }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+          .shop-header {
+            padding: 1.5rem 0;
+          }
+
+          .shop-logo {
+            width: 60px;
+            height: 60px;
+          }
+
+          .shop-details h1 {
+            font-size: 1.25rem;
+          }
+
+          .shop-contact-info {
+            font-size: 0.85rem;
+          }
+
+          .toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .toolbar h2 {
+            font-size: 1.5rem;
+          }
+
+          .sort-select {
+            width: 100%;
+            min-width: auto;
+          }
+
+          /* Hide decorative elements on mobile */
+          .decorative-bg {
+            display: none;
+          }
+        }
+
+        /* Hide decorative elements on tablets too */
+        @media (max-width: 1024px) {
+          .decoration-left,
+          .decoration-right {
+            opacity: 0.3;
+          }
+
+          .floating-shape {
+            filter: blur(60px);
+          }
         }
       `}</style>
     </Layout>
